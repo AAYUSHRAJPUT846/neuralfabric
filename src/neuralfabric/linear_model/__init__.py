@@ -1,1 +1,3 @@
-"""Linear models: Linear/Logistic/Ridge/Lasso/ElasticNet regression."""
+from .linear_regression import LinearRegression
+
+__all__ = ["LinearRegression"]
