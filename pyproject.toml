@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neuralfabric"
-version = "0.0.1"
+version = "Genesis"
 description = "NeuralFabric: a from-scratch ML/DL framework."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -41,7 +41,7 @@ Repository = "https://github.com/aryanap07/neuralfabric"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"levelgraphs" = ["datasets/data/*"]
+"neuralfabric" = ["datasets/data/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
