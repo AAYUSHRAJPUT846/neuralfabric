@@ -61,8 +61,8 @@ src/neuralfabric/
 
 ## Roadmap
 
-- [ ] `core`: Tensor + autograd engine
-- [ ] `linear_model`: Linear & Logistic Regression
+- [x] `core`: Tensor + autograd engine
+- [x] `linear_model`: Linear & Logistic Regression
 - [ ] `tree` / `ensemble`: Decision Tree, Random Forest, Gradient Boosting
 - [ ] `svm`, `naive_bayes`, `cluster`, `decomposition`
 - [ ] `nn`: Module system, core layers, losses, activations
