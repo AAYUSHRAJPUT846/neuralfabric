@@ -1,20 +1,11 @@
 # NeuralFabric
 
-**NeuralFabric** is a from-scratch machine learning and deep learning
-framework — from linear regression to transformers — built the way
-scikit-learn, PyTorch, and TensorFlow are built, not just used.
-
-- Classical models use an **sklearn-style estimator API**
-  (`fit` / `predict` / `transform`, `get_params` / `set_params`).
-- Neural networks use a **PyTorch-style API**: `Tensor` with autograd,
-  `nn.Module`, `optim` optimizers.
-- Includes a dedicated `transformer` subpackage (attention, positional
-  encoding, encoder/decoder stacks, full Transformer models).
+A from-scratch machine learning and deep learning framework, from linear regression to transformers.
 
 ## Installation
 
 ```bash
-pip install neuralfabric          # once published to PyPI
+pip install neuralfabric
 # or, for local development:
 pip install -e ".[dev]"
 ```
