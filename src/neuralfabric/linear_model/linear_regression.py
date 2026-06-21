@@ -1,9 +1,15 @@
 from __future__ import annotations
 
+from typing import Self
+
+from neuralfabric.base import BaseEstimator, RegressorMixin
 from neuralfabric.core.tensor import Tensor
 
 
-class LinearRegression:
+class LinearRegression(
+    BaseEstimator,
+    RegressorMixin,
+):
     """
     Ordinary Least Squares (OLS) Linear Regression
     optimized using Gradient Descent.
@@ -24,7 +30,7 @@ class LinearRegression:
         self,
         X: Tensor,
         y: Tensor,
-    ) -> LinearRegression:
+    ) -> Self:
         n_features = X.shape[1]
 
         self.weight = Tensor(
@@ -33,7 +39,7 @@ class LinearRegression:
         )
 
         self.bias = Tensor(
-            [0.0],
+            0.0,
             requires_grad=True,
         )
 
@@ -67,24 +73,14 @@ class LinearRegression:
 
         return X @ self.weight + self.bias
 
-    def score(
-        self,
-        X: Tensor,
-        y: Tensor,
-    ) -> float:
-        predictions = self.predict(X)
-
-        ss_res = ((y - predictions) ** 2).sum().item()
-
-        ss_tot = ((y - y.mean()) ** 2).sum().item()
-
-        return 1.0 - (ss_res / ss_tot)
-
     def parameters(self) -> list[Tensor]:
         if self.weight is None or self.bias is None:
             return []
 
-        return [self.weight, self.bias]
+        return [
+            self.weight,
+            self.bias,
+        ]
 
     def __repr__(self) -> str:
-        return "LinearRegression(" f"lr={self.lr}, " f"epochs={self.epochs})"
+        return f"LinearRegression(" f"lr={self.lr}, " f"epochs={self.epochs})"

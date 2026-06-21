@@ -76,6 +76,40 @@ def test_log_gradient(rng):
     assert_matches_finite_diff(lambda x: x.log().sum(), x)
 
 
+def test_clip_forward() -> None:
+    x = Tensor([-2.0, -0.5, 0.5, 2.0])
+
+    y = x.clip(-1.0, 1.0)
+
+    assert y.data.tolist() == [
+        -1.0,
+        -0.5,
+        0.5,
+        1.0,
+    ]
+
+
+def test_clip_backward() -> None:
+    x = Tensor(
+        [-2.0, -0.5, 0.5, 2.0],
+        requires_grad=True,
+    )
+
+    y = x.clip(-1.0, 1.0)
+    loss = y.sum()
+
+    loss.backward()
+
+    assert x.grad is not None
+
+    assert x.grad.tolist() == [
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+    ]
+
+
 def test_relu_gradient():
     x = np.array([-2.0, -0.5, 0.3, 1.7])
     assert_matches_finite_diff(lambda x: x.relu().sum(), x)

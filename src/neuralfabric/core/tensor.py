@@ -230,6 +230,29 @@ class Tensor:
         out._backward = _backward
         return out
 
+    def clip(
+        self,
+        min_value: float,
+        max_value: float,
+    ) -> Tensor:
+        out = Tensor(
+            np.clip(self.data, min_value, max_value),
+            requires_grad=self.requires_grad,
+            _children=(self,),
+            _op="clip",
+        )
+
+        def _backward() -> None:
+            if self.requires_grad:
+                mask = ((self.data >= min_value) & (self.data <= max_value)).astype(
+                    self.data.dtype
+                )
+
+                self._accumulate(out.grad * mask)
+
+        out._backward = _backward
+        return out
+
     def relu(self):
         out = Tensor(
             np.maximum(self.data, 0),
