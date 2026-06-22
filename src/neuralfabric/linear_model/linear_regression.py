@@ -47,21 +47,19 @@ class LinearRegression:
 
             loss.backward()
 
-            self.weight.data -= (
-                self.lr * self.weight.grad
-            )
+            weight_grad = self.weight.grad
+            bias_grad = self.bias.grad
+            assert weight_grad is not None
+            assert bias_grad is not None
 
-            self.bias.data -= (
-                self.lr * self.bias.grad
-            )
+            self.weight.data -= self.lr * weight_grad
+            self.bias.data -= self.lr * bias_grad
 
         return self
 
     def predict(self, X: Tensor) -> Tensor:
         if self.weight is None or self.bias is None:
-            raise RuntimeError(
-                "LinearRegression must be fitted before prediction."
-            )
+            raise RuntimeError("LinearRegression must be fitted before prediction.")
 
         return X @ self.weight + self.bias
 
@@ -74,11 +72,7 @@ class LinearRegression:
 
         ss_res = ((y - predictions) ** 2).sum().item()
 
-        ss_tot = (
-            ((y - y.mean()) ** 2)
-            .sum()
-            .item()
-        )
+        ss_tot = ((y - y.mean()) ** 2).sum().item()
 
         return 1.0 - (ss_res / ss_tot)
 
@@ -89,8 +83,4 @@ class LinearRegression:
         return [self.weight, self.bias]
 
     def __repr__(self) -> str:
-        return (
-            f"LinearRegression("
-            f"lr={self.lr}, "
-            f"epochs={self.epochs})"
-        )
+        return f"LinearRegression(" f"lr={self.lr}, " f"epochs={self.epochs})"
