@@ -20,6 +20,12 @@ class LogisticRegression(
         lr: float = 0.01,
         epochs: int = 1000,
     ) -> None:
+        if lr <= 0:
+            raise ValueError("lr must be positive.")
+
+        if epochs <= 0:
+            raise ValueError("epochs must be positive.")
+
         self.lr = lr
         self.epochs = epochs
 
@@ -31,6 +37,12 @@ class LogisticRegression(
         X: Tensor,
         y: Tensor,
     ) -> Self:
+        if len(X.shape) != 2:
+            raise ValueError("X must be a 2D tensor.")
+
+        if X.shape[0] != y.shape[0]:
+            raise ValueError("X and y must contain the same number of samples.")
+
         n_features = X.shape[1]
 
         self.weight = Tensor(
@@ -48,7 +60,7 @@ class LogisticRegression(
 
             predictions = logits.sigmoid().clip(
                 1e-7,
-                1 - 1e-7,
+                1.0 - 1e-7,
             )
 
             loss = -(y * predictions.log() + (1 - y) * (1 - predictions).log()).mean()
@@ -85,6 +97,9 @@ class LogisticRegression(
         X: Tensor,
         threshold: float = 0.5,
     ) -> Tensor:
+        if not 0.0 <= threshold <= 1.0:
+            raise ValueError("threshold must be between 0 and 1.")
+
         probabilities = self.predict_proba(X)
 
         return Tensor((probabilities.data >= threshold).astype(float))
@@ -93,10 +108,7 @@ class LogisticRegression(
         if self.weight is None or self.bias is None:
             return []
 
-        return [
-            self.weight,
-            self.bias,
-        ]
+        return [self.weight, self.bias]
 
     def __repr__(self) -> str:
-        return f"LogisticRegression(" f"lr={self.lr}, " f"epochs={self.epochs})"
+        return f"{self.__class__.__name__}(" f"lr={self.lr}, " f"epochs={self.epochs})"

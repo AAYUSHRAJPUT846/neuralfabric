@@ -1,13 +1,10 @@
 import pytest
 
 from neuralfabric.core.tensor import Tensor
-from neuralfabric.linear_model.linear_regression import LinearRegression
+from neuralfabric.linear_model import LinearRegression
 
 
 def test_fit_learns_simple_linear_relationship():
-    """
-    y = 2x + 1
-    """
     X = Tensor(
         [
             [1.0],
@@ -45,13 +42,17 @@ def test_fit_learns_simple_linear_relationship():
 def test_predict_before_fit_raises_error():
     model = LinearRegression()
 
-    X = Tensor([[1.0]])
-
     with pytest.raises(
         RuntimeError,
         match="must be fitted before prediction",
     ):
-        model.predict(X)
+        model.predict(Tensor([[1.0]]))
+
+
+def test_parameters_before_fit():
+    model = LinearRegression()
+
+    assert model.parameters() == []
 
 
 def test_parameters_exist_after_fit():
@@ -70,6 +71,7 @@ def test_parameters_exist_after_fit():
     )
 
     model = LinearRegression()
+
     model.fit(X, y)
 
     params = model.parameters()
@@ -134,9 +136,68 @@ def test_score_returns_high_r2():
 
     model.fit(X, y)
 
-    score = model.score(X, y)
+    assert model.score(X, y) > 0.99
 
-    assert score > 0.99
+
+def test_invalid_learning_rate():
+    with pytest.raises(
+        ValueError,
+        match="lr must be positive",
+    ):
+        LinearRegression(lr=0.0)
+
+
+def test_invalid_epochs():
+    with pytest.raises(
+        ValueError,
+        match="epochs must be positive",
+    ):
+        LinearRegression(epochs=0)
+
+
+def test_fit_requires_2d_input():
+    X = Tensor([1.0, 2.0, 3.0])
+
+    y = Tensor(
+        [
+            [1.0],
+            [2.0],
+            [3.0],
+        ]
+    )
+
+    model = LinearRegression()
+
+    with pytest.raises(
+        ValueError,
+        match="X must be a 2D tensor",
+    ):
+        model.fit(X, y)
+
+
+def test_fit_requires_matching_samples():
+    X = Tensor(
+        [
+            [1.0],
+            [2.0],
+            [3.0],
+        ]
+    )
+
+    y = Tensor(
+        [
+            [1.0],
+            [2.0],
+        ]
+    )
+
+    model = LinearRegression()
+
+    with pytest.raises(
+        ValueError,
+        match="same number of samples",
+    ):
+        model.fit(X, y)
 
 
 def test_repr():

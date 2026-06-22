@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Any, Self
 
 
@@ -17,42 +17,32 @@ class BaseEstimator:
         return self
 
 
-class RegressorMixin:
+class RegressorMixin(ABC):
     @abstractmethod
-    def predict(self, X):
-        raise NotImplementedError
+    def predict(self, X): ...
 
     def score(self, X, y) -> float:
-        from neuralfabric.metrics.regression import r2_score
+        from neuralfabric.metrics import r2_score
 
-        return r2_score(
-            y,
-            self.predict(X),
-        )
+        return r2_score(y, self.predict(X))
 
 
-class ClassifierMixin:
+class ClassifierMixin(ABC):
     @abstractmethod
-    def predict(self, X):
-        raise NotImplementedError
+    def predict(self, X): ...
 
     def score(self, X, y) -> float:
-        from neuralfabric.metrics.classification import accuracy_score
+        from neuralfabric.metrics import accuracy_score
 
-        return accuracy_score(
-            y,
-            self.predict(X),
-        )
+        return accuracy_score(y, self.predict(X))
 
 
-class TransformerMixin:
+class TransformerMixin(ABC):
     @abstractmethod
-    def fit(self, X, y=None):
-        raise NotImplementedError
+    def fit(self, X, y=None): ...
 
     @abstractmethod
-    def transform(self, X):
-        raise NotImplementedError
+    def transform(self, X): ...
 
     def fit_transform(self, X, y=None):
         return self.fit(X, y).transform(X)

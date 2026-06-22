@@ -1,26 +1,20 @@
 # Changelog
 
-## [0.7] - 2026-06-21
+All notable changes to this project will be documented in this file.
 
-### Added
-
-* Linear Regression model
-* Logistic Regression model
-* Gradient Descent optimization
-* Probability prediction for classification
-* Binary classification support
-* Train-test split utility
-* Tensor-based machine learning workflows
+## [1.0.0] - 2026-06-22
 
 ### Improved
 
-* Tensor operations and autograd engine
-* Type annotations and code quality
-* Project structure and documentation
-* Test coverage and CI workflows
+- Enhanced unit test coverage across core modules
+- Refined Tensor API behavior and edge-case handling
+- Improved package exports and module organization
+- Updated project configuration and packaging metadata
+- Enhanced code quality, consistency, and maintainability
 
 ### Fixed
 
-* Packaging and PyPI publishing issues
-* Versioning and release workflow issues
-* Minor bugs and edge cases across models
+- Resolved issues identified during test coverage analysis
+- Fixed minor edge cases in Tensor operations
+- Corrected import and initialization inconsistencies
+- Addressed miscellaneous bugs discovered during development

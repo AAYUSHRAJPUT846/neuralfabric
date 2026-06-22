@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neuralfabric"
-version = "0.7.1"
+version = "1.0"
 description = "A from-scratch machine learning and deep learning framework, from tensors to transformers."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,10 +19,12 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
+
 dependencies = [
-    "numpy>=1.23",
+    "numpy>= 2.4.0",
 ]
 
 [project.optional-dependencies]

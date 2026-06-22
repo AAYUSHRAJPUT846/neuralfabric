@@ -1,5 +1,3 @@
-"""Shared pytest fixtures for the LevelGraphs test suite."""
-
 import numpy as np
 import pytest
 
